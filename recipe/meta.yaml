@@ -1,4 +1,4 @@
-{% set version = "0.5.4" %}
+{% set version = "0.6.1" %}
 {% set build_number = 0 %}
 package:
   name: lance-namespace-split
@@ -6,7 +6,8 @@ package:
 
 source:
   url: https://github.com/lance-format/lance-namespace/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: f5f2ac3d1ed870fdecf1c9a209e57035243bc6f4cf055b497093725a9074d244
+  #sha256: f5f2ac3d1ed870fdecf1c9a209e57035243bc6f4cf055b497093725a9074d244
+  sha256: 87ffee91b64ea7c3486f83a004298f374e9a7be8b4fbed4a631e07bf1c465fac
 
 build:
   skip: true # [py<310]
@@ -17,10 +18,10 @@ outputs:
     version: {{ version }}
     build:
       skip: true # [py<310]
+      number: {{ build_number }}
       script: |
         cd python/lance_namespace_urllib3_client
         python -m pip install . -vv --no-deps --no-build-isolation
-      number: {{ build_number }}
     requirements:
       host:
         - python
@@ -33,27 +34,30 @@ outputs:
         - pydantic >=2
         - typing-extensions >=4.7.1
     test:
+      requires:
+        - pip
       imports:
         - lance_namespace_urllib3_client
       commands:
         - pip check
     about:
+      home: https://lance.org
       summary: Auto-generated Python client for Lance Namespace REST APIs
       description: Lance Namespace Specification
       license: Apache-2.0
       license_file: LICENSE
-      homepage: https://lance.org
-      repository: https://github.com/lance-format/lance-namespace
-      documentation: https://lance.org/format/namespace/
+      license_family: Apache
+      dev_url: https://github.com/lance-format/lance-namespace
+      doc_url: https://lance.org/format/namespace/
 
   - name: lance-namespace
     version: {{ version }}
     build:
       skip: true # [py<310]
+      number: {{ build_number }}
       script: |
         cd python/lance_namespace
         python -m pip install . -vv --no-deps --no-build-isolation
-      number: {{ build_number }}
     requirements:
       host:
         - python
@@ -63,27 +67,31 @@ outputs:
         - python
         - {{ pin_subpackage('lance-namespace-urllib3-client', exact=True) }}
     test:
+      requires:
+        - pip
       imports:
         - lance_namespace
       commands:
         - pip check
     about:
+      home: https://lance.org
       summary: Lance Namespace interface and plugin registry
       description: Lance Namespace interface and plugin registry
       license: Apache-2.0
       license_file: LICENSE
-      homepage: https://lance.org
-      repository: https://github.com/lance-format/lance-namespace
-      documentation: https://lance.org/format/namespace/
+      license_family: Apache
+      dev_url: https://github.com/lance-format/lance-namespace
+      doc_url: https://lance.org/format/namespace/
 
 about:
-  homepage: https://lance.org
+  home: https://lance.org
   summary: Lance Namespace is an open specification for describing access and operations against a collection of tables in a multimodal lakehouse
   description: Lance Namespace is an open specification for describing access and operations against a collection of tables in a multimodal lakehouse
   license: Apache-2.0
   license_file: LICENSE
-  repository: https://github.com/lance-format/lance-namespace
-  documentation: https://lance.org/format/namespace/
+  license_family: Apache
+  dev_url: https://github.com/lance-format/lance-namespace
+  doc_url: https://lance.org/format/namespace/
 
 extra:
   feedstock-name: lance-namespace
