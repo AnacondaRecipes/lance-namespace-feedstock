@@ -1,44 +1,42 @@
-context:
-  version: "0.5.4"
-
-recipe:
+{% set version = "0.5.4" %}
+{% set build_number = 0 %}
+package:
   name: lance-namespace-split
-  version: ${{ version }}
+  version: {{ version }}
 
 source:
-  url: https://github.com/lance-format/lance-namespace/archive/refs/tags/v${{ version }}.tar.gz
+  url: https://github.com/lance-format/lance-namespace/archive/refs/tags/v{{ version }}.tar.gz
   sha256: f5f2ac3d1ed870fdecf1c9a209e57035243bc6f4cf055b497093725a9074d244
 
 build:
-  number: 0
+  skip: true # [py<310]
+  number: {{ build_number }}
 
 outputs:
-  - package:
-      name: lance-namespace-urllib3-client
-      version: ${{ version }}
+  - name: lance-namespace-urllib3-client
+    version: {{ version }}
     build:
-      noarch: python
+      skip: true # [py<310]
       script: |
         cd python/lance_namespace_urllib3_client
-        python -m pip install . -vv --no-deps
-      number: 0
+        python -m pip install . -vv --no-deps --no-build-isolation
+      number: {{ build_number }}
     requirements:
       host:
-        - python ${{ python_min }}.*
+        - python
         - pip
         - hatchling
       run:
-        - python >=${{ python_min }}
+        - python
         - urllib3 >=1.25.3,<3.0.0
         - python-dateutil >=2.8.2
         - pydantic >=2
         - typing-extensions >=4.7.1
-    tests:
-      - python:
-          imports:
-            - lance_namespace_urllib3_client
-          pip_check: true
-          python_version: ${{ python_min }}.*
+    test:
+      imports:
+        - lance_namespace_urllib3_client
+      commands:
+        - pip check
     about:
       summary: Auto-generated Python client for Lance Namespace REST APIs
       description: Lance Namespace Specification
@@ -48,29 +46,27 @@ outputs:
       repository: https://github.com/lance-format/lance-namespace
       documentation: https://lance.org/format/namespace/
 
-  - package:
-      name: lance-namespace
-      version: ${{ version }}
+  - name: lance-namespace
+    version: {{ version }}
     build:
-      noarch: python
+      skip: true # [py<310]
       script: |
         cd python/lance_namespace
-        python -m pip install . -vv --no-deps
-      number: 0
+        python -m pip install . -vv --no-deps --no-build-isolation
+      number: {{ build_number }}
     requirements:
       host:
-        - python ${{ python_min }}.*
+        - python
         - pip
         - hatchling
       run:
-        - python >=${{ python_min }}
-        - ${{ pin_subpackage('lance-namespace-urllib3-client', exact=True) }}
-    tests:
-      - python:
-          imports:
-            - lance_namespace
-          pip_check: true
-          python_version: ${{ python_min }}.*
+        - python
+        - {{ pin_subpackage('lance-namespace-urllib3-client', exact=True) }}
+    test:
+      imports:
+        - lance_namespace
+      commands:
+        - pip check
     about:
       summary: Lance Namespace interface and plugin registry
       description: Lance Namespace interface and plugin registry
