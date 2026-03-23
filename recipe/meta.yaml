@@ -20,10 +20,7 @@ outputs:
       skip: true # [py<310]
       number: {{ build_number }}
     script: build_lance-namespace-urllib3-client.sh # [linux or osx]
-    script: build_lance-namespace-urllib3-client.sh # [win]
-    #|
-      #cd python/lance_namespace_urllib3_client
-      #python -m pip install . -vv --no-deps --no-build-isolation
+    script: build_lance-namespace-urllib3-client.bat # [win]
     requirements:
       host:
         - python
@@ -57,11 +54,8 @@ outputs:
     build:
       skip: true # [py<310]
       number: {{ build_number }}
-    script: build_lance-namespace.sh # [linux or osx]
-    script: build_lance-namespace.sh # [win]
-    #|
-    #  cd python/lance_namespace
-    #  python -m pip install . -vv --no-deps --no-build-isolation
+    script:  build_lance-namespace.sh # [linux or osx]
+    script:  build_lance-namespace.bat # [win]
     requirements:
       host:
         - python
