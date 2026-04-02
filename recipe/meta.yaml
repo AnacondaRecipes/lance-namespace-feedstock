@@ -1,0 +1,99 @@
+{% set version = "0.6.1" %}
+{% set build_number = 0 %}
+package:
+  name: lance-namespace-split
+  version: {{ version }}
+
+source:
+  url: https://github.com/lance-format/lance-namespace/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 87ffee91b64ea7c3486f83a004298f374e9a7be8b4fbed4a631e07bf1c465fac
+
+build:
+  number: {{ build_number }}
+
+outputs:
+  - name: lance-namespace-urllib3-client
+    version: {{ version }}
+    build:
+      number: {{ build_number }}
+    script: build_lance-namespace-urllib3-client.sh # [linux or osx]
+    script: build_lance-namespace-urllib3-client.bat # [win]
+    requirements:
+      host:
+        - python
+        - pip
+        - hatchling
+      run:
+        - python
+        - urllib3 >=1.25.3,<3.0.0
+        - python-dateutil >=2.8.2
+        - pydantic >=2
+        - typing-extensions >=4.7.1
+    test:
+      requires:
+        - pip
+        - pytest
+      source_files:
+        - python/lance_namespace_urllib3_client/test
+      imports:
+        - lance_namespace_urllib3_client
+      commands:
+        - pip check
+        - cd python/lance_namespace_urllib3_client && python -m pytest -v
+    about:
+      home: https://lance.org
+      summary: Auto-generated Python client for Lance Namespace REST APIs
+      description: Lance Namespace Specification
+      license: Apache-2.0
+      license_file: LICENSE
+      license_family: Apache
+      dev_url: https://github.com/lance-format/lance-namespace
+      doc_url: https://lance.org/format/namespace/
+
+  - name: lance-namespace
+    version: {{ version }}
+    build:
+      number: {{ build_number }}
+    script:  build_lance-namespace.sh # [linux or osx]
+    script:  build_lance-namespace.bat # [win]
+    requirements:
+      host:
+        - python
+        - pip
+        - hatchling
+      run:
+        - python
+        - {{ pin_subpackage('lance-namespace-urllib3-client', exact=True) }}
+    test:
+      requires:
+        - pip
+        - pytest
+      imports:
+        - lance_namespace
+      commands:
+        - pip check
+        - python -m pytest -v --pyargs lance_namespace.tests
+    about:
+      home: https://lance.org
+      summary: Lance Namespace interface and plugin registry
+      description: Lance Namespace interface and plugin registry
+      license: Apache-2.0
+      license_file: LICENSE
+      license_family: Apache
+      dev_url: https://github.com/lance-format/lance-namespace
+      doc_url: https://lance.org/format/namespace/
+
+about:
+  home: https://lance.org
+  summary: Lance Namespace is an open specification for describing access and operations against a collection of tables in a multimodal lakehouse
+  description: Lance Namespace is an open specification for describing access and operations against a collection of tables in a multimodal lakehouse
+  license: Apache-2.0
+  license_file: LICENSE
+  license_family: Apache
+  dev_url: https://github.com/lance-format/lance-namespace
+  doc_url: https://lance.org/format/namespace/
+
+extra:
+  feedstock-name: lance-namespace
+  recipe-maintainers:
+    - yhori991
