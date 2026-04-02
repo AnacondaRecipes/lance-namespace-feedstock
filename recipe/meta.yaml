@@ -32,10 +32,14 @@ outputs:
     test:
       requires:
         - pip
+        - pytest
+      source_files:
+        - python/lance_namespace_urllib3_client/test
       imports:
         - lance_namespace_urllib3_client
       commands:
         - pip check
+        - cd python/lance_namespace_urllib3_client && python -m pytest -v
     about:
       home: https://lance.org
       summary: Auto-generated Python client for Lance Namespace REST APIs
@@ -63,10 +67,12 @@ outputs:
     test:
       requires:
         - pip
+        - pytest
       imports:
         - lance_namespace
       commands:
         - pip check
+        - python -m pytest -v --pyargs lance_namespace.tests
     about:
       home: https://lance.org
       summary: Lance Namespace interface and plugin registry
