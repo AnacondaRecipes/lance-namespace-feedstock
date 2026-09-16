@@ -1,21 +1,23 @@
-{% set version = "0.6.1" %}
+{% set name = "lance-namespace" %}
+{% set version = "0.13.0" %}
 {% set build_number = 0 %}
 package:
-  name: lance-namespace-split
+  name: {{ name }}-split
   version: {{ version }}
 
 source:
-  url: https://github.com/lance-format/lance-namespace/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 87ffee91b64ea7c3486f83a004298f374e9a7be8b4fbed4a631e07bf1c465fac
+  url: https://github.com/lance-format/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 8250cd149a3d860ac26772f37fe806c7660b8d60f35d2bab1cbdc2e8327d41f5
 
 build:
   number: {{ build_number }}
 
 outputs:
-  - name: lance-namespace-urllib3-client
+  - name: {{ name }}-urllib3-client
     version: {{ version }}
     build:
       number: {{ build_number }}
+      skip: true  # [py<38]
     script: build_lance-namespace-urllib3-client.sh # [linux or osx]
     script: build_lance-namespace-urllib3-client.bat # [win]
     requirements:
@@ -50,10 +52,11 @@ outputs:
       dev_url: https://github.com/lance-format/lance-namespace
       doc_url: https://lance.org/format/namespace/
 
-  - name: lance-namespace
+  - name: {{ name }}
     version: {{ version }}
     build:
       number: {{ build_number }}
+      skip: true  # [py<38]
     script:  build_lance-namespace.sh # [linux or osx]
     script:  build_lance-namespace.bat # [win]
     requirements:
