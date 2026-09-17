@@ -1,5 +1,5 @@
 {% set name = "lance-namespace" %}
-{% set version = "0.13.0" %}
+{% set version = "0.8.5" %}
 {% set build_number = 0 %}
 package:
   name: {{ name }}-split
