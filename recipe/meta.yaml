@@ -1,5 +1,5 @@
 {% set name = "lance-namespace" %}
-{% set version = "0.13.0" %}
+{% set version = "0.8.5" %}
 {% set build_number = 0 %}
 package:
   name: {{ name }}-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/lance-format/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 8250cd149a3d860ac26772f37fe806c7660b8d60f35d2bab1cbdc2e8327d41f5
+  sha256: b3aa7460a42530789c40116927e238828273b3d944633b60c3f84e1c6809ddf7
 
 build:
   number: {{ build_number }}
